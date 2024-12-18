@@ -17,7 +17,6 @@ class AiNewsApiFetcherService extends ArticleFetcherService
     public function fetchArticles(): array
     {
         try {
-
             // Fetch articles from the API
             $response = Http::get($this->baseUrl, [
                 'apiKey' => $this->apiKey,
@@ -27,7 +26,7 @@ class AiNewsApiFetcherService extends ArticleFetcherService
                 'articlesCount' => 10,
             ]);
 
-             // Check if the response is successful and contains expected data
+            // Check if the response is successful and contains expected data
             if (!$response->successful() || !isset($response['articles']['results'])) {
                 throw new \Exception('Invalid API response structure.');
             }

@@ -1,22 +1,24 @@
 <?php
 
 namespace App\Repositories\Article;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Models\Article;
+use Illuminate\Support\Collection;
 
 class ArticleRepository
 {
-    public function paginateArticles(int $limit)
+    public function paginateArticles(int $limit): LengthAwarePaginator
     {
         return Article::orderBy('published_at', 'desc')->paginate($limit);
     }
 
-    public function findArticleById($id)
+    public function findArticleById($id): Collection
     {
         return Article::findOrFail($id);
     }
 
-    public function searchArticles(array $filters, int $limit)
+    public function searchArticles(array $filters, int $limit): LengthAwarePaginator
     {
         $query = Article::query();
 

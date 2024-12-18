@@ -7,6 +7,7 @@ use App\Http\Resources\ArticleResource;
 use App\Services\Article\ArticleService;
 use App\Http\Requests\ArticleSearchRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ArticleController extends Controller
 {
@@ -17,19 +18,19 @@ class ArticleController extends Controller
         $this->articleService = $articleService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
         $articles = $this->articleService->getPaginatedArticles($request->get('limit', 10));
         return ArticleResource::collection($articles);
     }
 
-    public function show($id)
+    public function show($id): ArticleResource
     {
         $article = $this->articleService->getArticleById($id);
         return new ArticleResource($article);
     }
 
-    public function search(ArticleSearchRequest $request)
+    public function search(ArticleSearchRequest $request): AnonymousResourceCollection
     {
         $filters = $request->only(['keyword', 'date', 'url', 'source']);
         $articles = $this->articleService->searchArticles($filters, $request->get('limit', 10));
